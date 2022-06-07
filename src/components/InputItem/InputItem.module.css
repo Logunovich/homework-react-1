@@ -1,0 +1,27 @@
+.input__box {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 50px 0;
+}
+
+.input{
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #c3c3c3;
+  border-radius: 3px;
+  color: rgb(109, 109, 109);
+  font-size: 20px;
+}
+
+.input::placeholder {
+  color: rgb(213, 213, 213);
+}
+
+.label{
+  position: absolute;
+  color: #adadad;
+  top: -20px;
+  left: 10px;
+  padding: 0 5px;
+}
