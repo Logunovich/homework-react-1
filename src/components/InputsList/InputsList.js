@@ -15,7 +15,7 @@ class InputsList extends Component {
       <>
         {renderInputs}
         <button className={styles.button}>Сохранить</button>
-        <button className={styles.button}>Сохранить</button>
+        <button className={styles.button}>Отмена</button>
       </>
     )
   }
