@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import InputItem from '../InputItem/InputItem';
+import styles from './InputsList.module.css';
 
 class InputsList extends Component {
   
@@ -13,6 +14,8 @@ class InputsList extends Component {
     return (
       <>
         {renderInputs}
+        <button className={styles.button}>Сохранить</button>
+        <button className={styles.button}>Сохранить</button>
       </>
     )
   }
