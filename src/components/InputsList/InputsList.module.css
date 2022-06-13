@@ -12,3 +12,7 @@
   cursor: pointer;
   background: rgb(159, 159, 159);
 }
+
+.save_btn {
+  background: rgb(83, 121, 83);
+}
