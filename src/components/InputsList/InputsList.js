@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import InputItem from '../InputItem/InputItem';
 import styles from './InputsList.module.css';
 import Form from '../Form/Form';
@@ -6,56 +6,46 @@ import inputsList from '../../mocks/inputsList';
 
 import { validatePhone, checkEmptyValues, checkValidate } from '../../util/validations';
 
-class InputsList extends Component {
-  constructor(props) {
-    super(props);
+const InputsList = () => {
+  const [name, surname, birthday, phone, web, about, stack, project] = Object.keys(inputsList); 
+  const maxLengthText = 600;
+  const initialValues = {
+    [name]: '',
+    [surname]: '',
+    [birthday]: '',
+    [phone]: '',
+    [web]: '',
+    [about]: '',
+    [stack]: '',
+    [project]: ''
+  };
+  const [inputValues, setInputValues] = useState(initialValues);
+  const [errorInputs, setErrorInputs] = useState({});
+  const [isFormDone, setIsFormDone] = useState(false);
 
-    const [name, surname, birthday, phone, web, about, stack, project] = Object.keys(inputsList); 
 
-    this.state = {
-      inputValues: {
-        [name]: '',
-        [surname]: '',
-        [birthday]: '',
-        [phone]: '',
-        [web]: '',
-        [about]: '',
-        [stack]: '',
-        [project]: ''
-      },
-      errorInputs: {},
-      isFormDone: false,
-    }
-    this.cleanValues = this.state.inputValues;
-    this.maxLengthText = 600;
-  }
-
-  onChangeItemValue = (event, inputName) => {
+  const onChangeItemValue = (event, inputName) => {
     if (inputName === 'phone') {
-      this.setState(({inputValues}) => {
-        return {
-          inputValues: {...inputValues, phone: validatePhone(event.target.value)}
-        }
+      setInputValues((inputValues) => {
+        return {...inputValues, phone: validatePhone(event.target.value)}
       })
     } else {
-      this.setState(({inputValues}) => {
-        return {
-          inputValues: {...inputValues, [inputName]: event.target.value}
-        }
+      setInputValues((inputValues) => {
+        return {...inputValues, [inputName]: event.target.value}
       })
     }
   };
 
-  cleanForm = () => {
-    this.setState({inputValues: this.cleanValues})
+  const cleanForm = () => {
+    setInputValues(initialValues)
   }
 
-  submitForm = () => {
+  const submitForm = () => {
     let newEmptyValues = {};
     let isError = false;
-    const {name, surname, phone, web, about, stack, project} = this.state.inputValues;
+    const {name, surname, phone, web, about, stack, project} = inputValues;
 
-    checkEmptyValues(this.state.inputValues).forEach((item) => {
+    checkEmptyValues(inputValues).forEach((item) => {
       isError = true;
       newEmptyValues = {...newEmptyValues, [item]: 'Поле обязательно для заполнения!'}
     })
@@ -65,53 +55,48 @@ class InputsList extends Component {
       newEmptyValues = {...newEmptyValues, [item]: inputsList[item].validationText}
     })
 
-    this.setState({errorInputs: newEmptyValues})
+    setErrorInputs(newEmptyValues)
 
-    const checkLengthText = about.length <= this.maxLengthText 
-                         && stack.length <= this.maxLengthText 
-                         && project.length <= this.maxLengthText;
+    const checkLengthText = about.length <= maxLengthText 
+                         && stack.length <= maxLengthText 
+                         && project.length <= maxLengthText;
 
     if (!isError && checkLengthText) {
-      this.setState({isFormDone: true})
+      setIsFormDone(true)
     } 
   };
 
-  closeFunction = () => {
-    this.cleanForm();
+  const closeFunction = () => {
+    cleanForm();
 
-    this.setState({
-      isFormDone: false
-    })
+    setIsFormDone(false);
   }
-  
-  render() {
 
-    return (
-      <>
-        {Object.entries(inputsList).map((input, id) => {
-          return (
-            <InputItem 
-              input={input} 
-              key={id}
-              handler={this.onChangeItemValue}
-              value={this.state.inputValues[input[0]]}
-              errors={this.state.errorInputs}/>
-          )
-        })}
-        <button 
-          className={`${styles.button} ${styles.save_btn}`}
-          onClick={this.submitForm}>
-          Сохранить
-        </button>
-        <button 
-          className={styles.button}
-          onClick={this.cleanForm}>
-          Отмена
-        </button>
-        {this.state.isFormDone ? <Form data={this.state.inputValues} closeFunction={this.closeFunction}/> : null}
-      </>
-    )
-  }
-};
+  return (
+    <>
+      {Object.entries(inputsList).map((input, id) => {
+        return (
+          <InputItem 
+            input={input} 
+            key={id}
+            handler={onChangeItemValue}
+            value={inputValues[input[0]]}
+            errors={errorInputs}/>
+        )
+      })}
+      <button 
+        className={`${styles.button} ${styles.save_btn}`}
+        onClick={submitForm}>
+        Сохранить
+      </button>
+      <button 
+        className={styles.button}
+        onClick={cleanForm}>
+        Отмена
+      </button>
+      {isFormDone ? <Form data={inputValues} closeFunction={closeFunction}/> : null}
+    </>
+  )
+}
 
 export default InputsList;
