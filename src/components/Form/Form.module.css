@@ -10,7 +10,7 @@ li {
   color: rgb(75, 75, 75);
 }
 
-.wrapperAnketa {
+.wrapperForm {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
@@ -19,7 +19,7 @@ li {
   left: 0;
 }
 
-.anketa {
+.form {
   margin: 40px auto;
   background: white;
   width: 700px;
@@ -29,7 +29,7 @@ li {
   position: relative;
 }
 
-.anketa h2{
+.form h2{
   text-align: center;
   color: rgb(93, 93, 93);
 }

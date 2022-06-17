@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import styles from './Anketa.module.css';
+import styles from './Form.module.css';
 
-class Anketa extends Component {
+class Form extends Component {
   render() {
     const {name, surname, birthday, phone, web, about, stack, project} = this.props.data;
+    
     return (
       <>
-        <div className={styles.wrapperAnketa}>
-          <div className={styles.anketa}>
+        <div className={styles.wrapperForm}>
+          <div className={styles.form}>
             <h2>Ваша анкета</h2>
             <ul>
               <li><span className={styles.list}>Имя:</span> {name}</li>
@@ -18,13 +19,13 @@ class Anketa extends Component {
               <li><span className={styles.list}>О вас:</span> {about}</li>
               <li><span className={styles.list}>Стек технологий:</span> {stack}</li>
               <li><span className={styles.list}>Описание проекта:</span> {project}</li>
-            </ul>
+            </ul> 
           <div className={styles.closeBtn} onClick={this.props.closeFunction}>X</div>
           </div>
-        </div>
+        </div> 
       </>
     )
   }
 }
 
-export default Anketa;
+export default Form;

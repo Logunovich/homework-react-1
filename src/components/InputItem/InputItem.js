@@ -2,41 +2,37 @@ import React, { Component } from 'react';
 import styles from './InputItem.module.css';
 
 class InputItem extends Component {
-
   render() {
-    let errorEmptyMessage = null;
-    let errorValidateMessage = null;
-    const {inputType, type, name, label, placeholder, validationText} = this.props.input;
+    let errorText = null;
+    const {inputType, type, label, placeholder} = this.props.input[1];
+    const name = this.props.input[0];
+    const lengthText = 600 - this.props.value.length;
+    const maxText = lengthText >= 0 ? 
+      'Максимальное количество символов: 600/' + lengthText : 
+      `Превышен лимит! (600/${lengthText})`;
 
-    if (this.props.emptyValues.indexOf(name) >= 0) {
-      errorEmptyMessage = 'Поле пустое. Заполните пожалуйста';
-    };
+    const classLimitText = lengthText >= 0 ? styles.maxText : styles.maxTextError;
 
-    if (this.props.validateErrorValues.indexOf(name) >= 0) {
-      errorValidateMessage = validationText;
-    };
+    if (Object.keys(this.props.errors).includes(name)) {
+      errorText = this.props.errors[name]
+    }
 
-    const renderField = () => {
-      const actualValue = this.props.values.filter(item => item.input === name)[0].value;
-      const lengthText = 600 - actualValue.length;
-      const maxText = lengthText >= 0 ? 'Максимальное количество символов: 600/' + lengthText : `Превышен лимит! (600/${lengthText})`;
-      const classLimitText = lengthText >= 0 ? styles.maxText : styles.maxTextError;
-
+    const renderField = () => { 
       switch(inputType) {
         case 'input': 
           return (
             <>
               <label className={styles.label} htmlFor={name}>{label}:</label>
               <input 
-                value={actualValue}
+                value={this.props.value}
                 className={styles.input} 
                 type={type} 
                 name={name} 
                 placeholder={`${placeholder}...`}
                 onChange={(e) => this.props.handler(e, name)}/>
               <div className={styles.isEmpty}>
-                {errorEmptyMessage}{errorValidateMessage}
-              </div>
+                {errorText}
+              </div> 
             </>
           )
         case 'textArea': 
@@ -44,7 +40,7 @@ class InputItem extends Component {
             <>
               <label className={styles.label} htmlFor={name}>{label}:</label>
               <textarea 
-                value={actualValue}
+                value={this.props.value}
                 className={styles.input} 
                 rows='7' name={name} 
                 placeholder={`${placeholder}...`}
@@ -54,7 +50,7 @@ class InputItem extends Component {
                 {maxText}
               </div>
               <div className={styles.isEmpty}>
-                {errorEmptyMessage}{errorValidateMessage}
+                {errorText}
               </div>
             </>
           )
