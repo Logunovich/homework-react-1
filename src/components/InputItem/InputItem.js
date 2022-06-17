@@ -40,7 +40,8 @@ const InputItem = ({input, handler, value, errors}) => {
             <textarea 
               value={value}
               className={styles.input} 
-              rows='7' name={name} 
+              rows='7' 
+              name={name} 
               placeholder={`${placeholder}...`}
               onChange={(e) => handler(e, name)}
               />
